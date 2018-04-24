@@ -2,22 +2,24 @@
 <html>
   <head>
     <title>Literally Canvas</title>
-    <link href="/lib/css/literallycanvas.css" rel="stylesheet">
+    <link href="../lib/css/literallycanvas.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no" />
 
     <style type="text/css">
+      html {
+       height: 99%;
+      }
       body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         margin: 0;
         background-color: gray;
-        height: 2000px;
+        height: 100%;
       }
 
       .fs-container {
-        /* width: 768px; */
-        width: 320px;
         margin: auto;
+        height: 100%;
         /* margin-top: 50px; */
       }
 
@@ -26,50 +28,41 @@
         height: 100%;
         position: relative;
       }
+      .one {
+        height: 100%;
+      }
     </style>
   </head>
 
   <body>
     <div class="fs-container">
-      <a href="react-component">react-component</a>
+<!--      <a href="react-component">react-component</a>
       <a href="core_demo.html">core</a>
-      <div class="one"></div>
       <a href="javascript:void(0);" id="open-image">Open image</a>
-      <br>
       <a href="javascript:void(0);" id="change-size">Change size</a>
-      <br>
       <a href="javascript:void(0);" id="hide-lc">Teardown</a>
-      <br>
       <a href="javascript:void(0);" id="show-lc">Setup</a>
-
-      <br>
-      <div class="svg-container"
-          style="display: inline-block; border: 1px solid yellow"></div>
-
-      <!--
-      <br><br>
-      <div class="literally two"></div>
-      -->
+      <a href="javascript:void(0);" class='tool' id="clear-lc">Clear</a> -->
+      <div class="one"></div>
+<!--      <div class="svg-container"
+          style="display: block; border: 1px solid yellow"></div>-->
     </div>
 
-    <script src="/demo/jquery-1.8.2.js"></script>
-    <script src="/demo/fastclick.js"></script>
-    <script src="/demo/react-16.1.1.js"></script>
-    <script src="/demo/react-dom-16.1.1.js"></script>
-    <script src="/demo/react-dom-factories-1.0.2.js"></script>
-    <script src="/demo/create-react-class-15.6.2.js"></script>
-    <!--<script src="/demo/react-15.1.0.js"></script>-->
-    <!--<script src="/demo/react-0.14.7.js"></script>-->
-    <!--<script src="/demo/react-0.13.3.js"></script>-->
-    <!--<script src="/demo/react-0.10.0.js"></script>-->
-    <script src="/lib/js/literallycanvas.js"></script>
+    <script src="../demo/jquery-1.8.2.js"></script>
+    <script src="../demo/fastclick.js"></script>
+    <script src="../demo/react-16.1.1.js"></script>
+    <script src="../demo/react-dom-16.1.1.js"></script>
+    <script src="../demo/react-dom-factories-1.0.2.js"></script>
+    <script src="../demo/create-react-class-15.6.2.js"></script>
+    <script src="../lib/js/literallycanvas.js"></script>
 
     <script type="text/javascript">
-      LC.setDefaultImageURLPrefix('/lib/img');
+      LC.setDefaultImageURLPrefix('../lib/img');
 
       var lc = null;
 
       var updateSVG = function() {
+        return;
         if (!lc) return;
         $('.svg-container')[0].innerHTML = lc.getSVGString();
       }
@@ -79,10 +72,10 @@
 
       LC.util.addImageOnload(backgroundImage, updateSVG);
 
-      backgroundImage.src = '/demo/bear.png';
+      backgroundImage.src = '../demo/bear.png';
 
       var watermarkImage = new Image();
-      watermarkImage.src = '/demo/watermark.png';
+      watermarkImage.src = '../demo/watermark.png';
       // for testing watermark loading bug:
       //watermarkImage.src = 'http://literallycanvas.com/_static/watermark.png'
 
@@ -146,15 +139,15 @@
         lc = LC.init(containerOne, {
           toolbarPosition: 'bottom',
           tools: LC.defaultTools.concat([MyTool]),
-          snapshot: JSON.parse(localStorage.getItem('drawing')),
+//          snapshot: JSON.parse(localStorage.getItem('drawing')),
           defaultStrokeWidth: 2,
-          strokeWidths: [1, 2, 3, 5, 30],
+          strokeWidths: [1, 2, 3, 5, 10, 20, 30],
           backgroundShapes: [
-            LC.createShape(
+/*            LC.createShape(
               'Image', {image: backgroundImage, x: 100, y: 100, scale: 2}),
             LC.createShape(
               'Rectangle',
-              {x: 0, y: 0, width: 100, height: 100, strokeColor: '#000'})
+              {x: 0, y: 0, width: 100, height: 100, strokeColor: '#000'})*/
           ],
           onInit: function(lc) {
             console.log('initialized with', lc)
@@ -164,7 +157,7 @@
           // imageSize: {width: 500, height: 300}
         });
         window.demoLC = lc;
-        lc.setWatermarkImage(watermarkImage);
+        // lc.setWatermarkImage(watermarkImage);
 
         var save = function() {
           localStorage.setItem('drawing', JSON.stringify(lc.getSnapshot()));
@@ -216,13 +209,19 @@
       $('#show-lc').click(function() {
         if (!lc) { showLC(); }
       });
+
+        $("#clear-lc").click(function() {
+          lc.clear();
+        });
+
+
     </script>
 
     <!--
     <script type="text/javascript">
       $(document).ready(function(){
         $('.literally.two').literallycanvas({
-          imageURLPrefix: '/lib/img',
+          imageURLPrefix: '../lib/img',
           onInit: function(lc) {
             console.log('initialized with', lc)
           }
@@ -231,6 +230,6 @@
     </script>
     -->
 
-    <script src="//localhost:35728/livereload.js"></script>
+<!--    <script src="//localhost:35728/livereload.js"></script> -->
   </body>
 </html>
